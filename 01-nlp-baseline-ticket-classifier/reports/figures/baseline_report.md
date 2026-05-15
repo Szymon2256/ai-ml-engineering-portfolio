@@ -19,6 +19,21 @@ The distribution shows a clear hierarchy in ticket volume. While **"Incident"** 
 | Problem    | 853   | ~21.5% |
 | Change     | 442   | ~11% |
 
+The distribution shows target variable `Queue` and how many records we have for each Queue of the tickets.
+
+|Queue       | Count |
+|------------|--------------------|
+|  Technical Support              |   1317 |
+|  Product Support                |   690 |
+|  Customer Service               |   627 |
+|  IT Support                     |   445 |
+|  Billing and Payments           |   338 |
+|  Returns and Exchanges          |   197 |
+|  Service Outages and Maintenance|   141 |
+|  Sales and Pre-Sales            |   137 |
+|  General Inquiry                |   55 |
+|  Human Resources                |   53 |
+
 ### Insight
 The dataset is imbalanced. Models may struggle to accurately predict the **"Change"** category without specific techniques such as:
 - Oversampling
