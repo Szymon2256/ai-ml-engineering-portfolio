@@ -1,1 +1,54 @@
+import sys
+import os
+sys.path.append(os.path.abspath('../'))
+import pandas as pd
+import re
+from sklearn.model_selection import train_test_split
+import logging
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+def clean_text(text):
+    """
+    Clean the input text by removing special characters, extra spaces, and converting to lowercase
+    to prepare it for NLP tasks such as tokenization, vectorization and using TF-IDF. 
+    This function can be extended to include more complex cleaning steps such as removing stop words, lemmatization, etc.
+    """
+    if not isinstance(text, str):
+        return ""
+    
+    # 1. Convert to lowercase
+    logger.info("Converting text to lowercase...")
+    text = text.lower()
+
+    # 2. Remove HTML tags (also names, emails, acc_num, phone numbers, etc.)
+    logger.info("Removing HTML tags...")
+    text = re.sub(re.compile('<.*?>'), '', text)
+
+    # 3. Remove special characters ..., ,, !, ?, etc.
+    logger.info("Removing special characters...")
+    text = re.sub(r'[^\w\s]', ' ', text)
+
+    # 4. Remove extra spaces
+    logger.info("Removing extra spaces...")
+    text = re.sub(r'\s+', ' ', text)
+
+    logger.info("Text cleaning completed.")
+    return text.strip()
+
+def split_data(df: pd.DataFrame, target_column: str, test_size: float = 0.2, random_state: int = 42):
+    """
+    Split the DataFrame into training and testing sets.
+    """
+
+    logger.info(f"Splitting data into train and test sets with test size {test_size} and random state {random_state}...")
+    train_df, test_df = train_test_split(
+        df, 
+        test_size=test_size, 
+        random_state=random_state,
+        stratify=df[target_column]
+    )
+
+    logger.info("Data splitting completed.")
+    return train_df, test_df
