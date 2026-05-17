@@ -5,9 +5,22 @@ import pandas as pd
 import re
 from sklearn.model_selection import train_test_split
 import logging
+from nltk.stem.snowball import SnowballStemmer
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+# LANGUAGES = {
+#     'en': 'english',
+#     'de': 'german',
+#     'es': 'spanish',
+#     'fr': 'french',
+#     'pt': 'portuguese'
+# }
+
+# for lang_code in LANGUAGES.keys():
+#     stemmer = SnowballStemmer(LANGUAGES[lang_code])
+#     df.loc[df['language'] == lang_code, 'cleaned_context'] = df.loc[df['language'] == lang_code, 'context_problem'].apply(lambda x: ' '.join([stemmer.stem(word) for word in x.split()]))
 
 def clean_text(text):
     """
@@ -19,23 +32,32 @@ def clean_text(text):
         return ""
     
     # 1. Convert to lowercase
-    logger.info("Converting text to lowercase...")
     text = text.lower()
 
     # 2. Remove HTML tags (also names, emails, acc_num, phone numbers, etc.)
-    logger.info("Removing HTML tags...")
     text = re.sub(re.compile('<.*?>'), '', text)
 
     # 3. Remove special characters ..., ,, !, ?, etc.
-    logger.info("Removing special characters...")
     text = re.sub(r'[^\w\s]', ' ', text)
 
     # 4. Remove extra spaces
-    logger.info("Removing extra spaces...")
     text = re.sub(r'\s+', ' ', text)
 
-    logger.info("Text cleaning completed.")
     return text.strip()
+
+def stem_text(text: str, stemmer: SnowballStemmer) -> str:
+    """
+    Apply stemming to the input text using Snowball Stemmer.
+    This function can be used to reduce words to their root form, which can help in improving the performance of NLP models.
+    """
+    if not isinstance(text, str):
+        return ""
+
+    tokens = text.split()
+    stemmed_tokens = [stemmer.stem(token) for token in tokens]
+    stemmed_text = ' '.join(stemmed_tokens)
+    
+    return stemmed_text
 
 def split_data(df: pd.DataFrame, target_column: str, test_size: float = 0.2, random_state: int = 42):
     """

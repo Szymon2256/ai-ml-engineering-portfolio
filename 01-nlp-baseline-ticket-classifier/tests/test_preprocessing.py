@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.append(os.path.abspath('../'))
 import pytest
-from src.preprocessing import clean_text
+from src.preprocessing import clean_text, stem_text
 
 def test_clean_text_lowercasing():
     assert clean_text("CRÍTICO Servidor") == "crítico servidor"
@@ -24,3 +24,10 @@ def test_clean_text_empty_and_invalid():
 
 def test_clean_text_all_pii_tags():
     assert clean_text("Contact: <email> or <phone>") == "contact or"
+
+def test_stem_text():
+    from nltk.stem.snowball import SnowballStemmer
+    stemmer = SnowballStemmer("english")
+    assert stem_text("running", stemmer) == "run"
+    assert stem_text("happily", stemmer) == "happili"
+    assert stem_text("studies", stemmer) == "studi"
