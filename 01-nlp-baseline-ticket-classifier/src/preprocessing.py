@@ -10,17 +10,6 @@ from nltk.stem.snowball import SnowballStemmer
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# LANGUAGES = {
-#     'en': 'english',
-#     'de': 'german',
-#     'es': 'spanish',
-#     'fr': 'french',
-#     'pt': 'portuguese'
-# }
-
-# for lang_code in LANGUAGES.keys():
-#     stemmer = SnowballStemmer(LANGUAGES[lang_code])
-#     df.loc[df['language'] == lang_code, 'cleaned_context'] = df.loc[df['language'] == lang_code, 'context_problem'].apply(lambda x: ' '.join([stemmer.stem(word) for word in x.split()]))
 
 def clean_text(text):
     """

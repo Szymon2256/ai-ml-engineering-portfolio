@@ -29,6 +29,10 @@ class DataLoader:
         
         df.drop(columns=['tag_9'], inplace=True)
         df.loc[df["business_type"].isin(["Pit Services", "Adobe Photoshop 2024", "_IT_Services_", "IT Consulting Service"]), "business_type"] = "IT Services"
+        
+        # Merging similar queues into a single category if we decided that 
+        # IT Support and Product Support are similar enough to be treated as one queue. (OPTIONAL)
+        # df.loc[df["queue"].isin(["IT Support", "Product Support"]), "queue"] = "IT Support" 
 
         # Connecting tags into a single column and creating a new column for the combined context of the problem
         tags = [col for col in df.columns if col.startswith('tag_')]
