@@ -63,8 +63,28 @@ Service Outages and Maintenance       0.33      0.71      0.45        28
 
 ---
 
+### Strategic Project Decision & Data Architecture Analysis
+
+During Day 5, an additional experiment (ID 9) was conducted, involving the merging of the `Product Support` and `IT Support` classes into a single shared category (reducing the number of classes from 10 to 9). The model performance immediately increased to **61.38% Accuracy** and **58.44% Macro F1-Score**.
+
+Removing this internal label unlocked the potential of trigrams for the remaining classes (for example, the *Sales* department achieved an F1-score increase of 16 percentage points).
+
+#### Final Baseline Selection Decision:
+Despite the higher performance of the 9-class variant, **the official production baseline model for this project remains the original 10-class variant (Model ID 8 / ID 2).**
+
+**Why?**
+1. **More Challenging Reference Point (Strict Baseline):**  
+   The goal of this project is to build a strong foundation for future learning stages. Preserving the full 10-class structure enables a fair and direct comparison between classical Machine Learning approaches and deep learning architectures (Transformers) in future projects.
+
+2. **Business Realism:**  
+   In real production environments, reducing the number of classes is not always operationally feasible. The model must learn to handle difficult decision boundaries.
+
+3. **9-Class Variant as a Data Insight:**  
+   The 9-class result is documented as a valuable business feedback insight (*Data-Driven Business Insight*), demonstrating how an internal process change within a company can dramatically improve AI automation effectiveness.
 
 ---
+
+
 
 # Context (TBD)
 Project overview
@@ -80,16 +100,16 @@ Next steps
 
 ### Checklist
 
-- [ ] Mam repo na GitHubie
-- [ ] Mam dataset ticketów
-- [ ] Mam EDA
-- [ ] Mam preprocessing
-- [ ] Mam minimum 3 eksperymenty modelowe
-- [ ] Mam metryki: accuracy, macro F1, weighted F1
-- [ ] Mam confusion matrix
-- [ ] Mam error analysis
-- [ ] Mam zapisany model
-- [ ] Mam inference.py
+- [x] Mam repo na GitHubie
+- [x] Mam dataset ticketów
+- [x] Mam EDA
+- [x] Mam preprocessing
+- [x] Mam minimum 3 eksperymenty modelowe
+- [x] Mam metryki: accuracy, macro F1, weighted F1
+- [x] Mam confusion matrix
+- [x] Mam error analysis
+- [x] Mam zapisany model
+- [x] Mam inference.py
 - [ ] Mam README
 - [ ] Mam opis next steps
 

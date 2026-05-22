@@ -4,10 +4,12 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Data paths
-DATA_DIR = os.path.join(BASE_DIR, 'data', 'raw', 'processed')
-RAW_DATA_PATH = os.path.join(DATA_DIR, 'tickets_dataset.csv')
-TRAIN_DATA_PATH = os.path.join(DATA_DIR, 'train.csv')
-TEST_DATA_PATH = os.path.join(DATA_DIR, 'test.csv')
+RAW_DATA_DIR = os.path.join(BASE_DIR, 'data', 'raw')
+PROCESSED_DATA_DIR = os.path.join(BASE_DIR, 'data', 'processed')
+RAW_DATA_PATH = os.path.join(RAW_DATA_DIR, 'tickets_dataset.csv')
+TRAIN_DATA_PATH = os.path.join(PROCESSED_DATA_DIR, 'train.csv')
+TEST_DATA_PATH = os.path.join(PROCESSED_DATA_DIR, 'test.csv')
+LANGUAGES_PATH = os.path.join(RAW_DATA_DIR, 'languages.json')
 
 # Prepare paths to save models and results
 MODEL_DIR = os.path.join(BASE_DIR, "models")
