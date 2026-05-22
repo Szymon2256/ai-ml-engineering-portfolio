@@ -97,19 +97,3 @@ Results
 Error analysis
 How to run
 Next steps
-
-### Checklist
-
-- [x] Mam repo na GitHubie
-- [x] Mam dataset ticketów
-- [x] Mam EDA
-- [x] Mam preprocessing
-- [x] Mam minimum 3 eksperymenty modelowe
-- [x] Mam metryki: accuracy, macro F1, weighted F1
-- [x] Mam confusion matrix
-- [x] Mam error analysis
-- [x] Mam zapisany model
-- [x] Mam inference.py
-- [ ] Mam README
-- [ ] Mam opis next steps
-
