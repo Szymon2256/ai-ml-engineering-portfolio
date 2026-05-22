@@ -3,6 +3,8 @@ import joblib
 import logging
 import src.config as config
 import json
+from nltk.stem.snowball import SnowballStemmer
+from src.preprocessing import clean_text, stem_text
 
 logging.basicConfig(level=logging.WARNING, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -46,6 +48,10 @@ def predict_ticket(text: str | None = None, language: str | None = None):
             logger.warning(f"Language '{language}' is not supported. Use one of: {list(languages.keys())}")
 
     logger.info(f"Making prediction for the input text: {text[:50]}...")
+    text = clean_text(text)
+    stemmer = SnowballStemmer(languages[language]) if language in languages else None
+    if stemmer:
+        text = stem_text(text, stemmer)
     prediction = model.predict([text])[0]
     logger.info(f"Predicted category: {prediction}")
     

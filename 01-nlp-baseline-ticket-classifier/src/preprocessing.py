@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 import logging
 from nltk.stem.snowball import SnowballStemmer
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.WARNING, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 
