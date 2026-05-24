@@ -1,53 +1,125 @@
 # Multilingual Support Ticket Classifier
 
-## Business problem
+## Overview
 
-Customer support teams receive tickets in multiple languages. 
-The goal is to automatically classify incoming tickets into operational categories to support routing, prioritization and reporting.
+This project is my first completed NLP baseline project in a broader AI / ML engineering portfolio.
+The goal was to build a simple but complete text classification workflow for multilingual support tickets before moving to more advanced deep learning and transformer-based solutions.
 
----
-
-## Technical approach
-
-
-I started with classical NLP baselines using TF-IDF features and linear classifiers.
-This provides an interpretable, fast and strong benchmark before moving to transformer-based models.
+I treated this project as a learning-focused baseline: understand the data, prepare a clean training set, compare a few classical NLP approaches, save the model, and make it usable outside the notebook.
 
 ---
 
-## Evaluation
+## Business Problem
 
-The model is evaluated using macro F1, weighted F1 and confusion matrix.
-Macro F1 is important because some ticket categories may be underrepresented.
+Support teams receive large volumes of tickets across multiple departments and languages.
+The objective of this project is to classify incoming tickets into the correct operational queue so the routing process can be partially automated.
 
-# First result of prediction
+Target classes used in the final baseline:
 
-## Global Metrics
-*   **Accuracy:** 0.4713
-*   **Macro F1-Score:** 0.4761  
-*   **Weighted F1-Score:** 0.4683
+- Billing and Payments
+- Customer Service
+- General Inquiry
+- Human Resources
+- IT Support
+- Product Support
+- Returns and Exchanges
+- Sales and Pre-Sales
+- Service Outages and Maintenance
+- Technical Support
 
-## Classification Report per Class
-```text
-                                 precision    recall  f1-score   support
-
-           Billing and Payments       0.79      0.91      0.85        68
-               Customer Service       0.41      0.28      0.33       125
-                General Inquiry       0.29      0.45      0.36        11
-                Human Resources       0.43      0.55      0.48        11
-                     IT Support       0.30      0.38      0.34        89
-                Product Support       0.40      0.48      0.43       138
-          Returns and Exchanges       0.50      0.79      0.61        39
-            Sales and Pre-Sales       0.35      0.52      0.42        27
-Service Outages and Maintenance       0.33      0.71      0.45        28
-              Technical Support       0.64      0.39      0.49       264
-
-                       accuracy                           0.47       800
-                      macro avg       0.44      0.55      0.48       800
-                   weighted avg       0.50      0.47      0.47       800
-```
 ---
-## Experimental Comparison Summary
+
+## Dataset
+
+The project uses a multilingual support ticket dataset containing fields such as:
+
+- subject
+- body
+- queue
+- priority
+- language
+- type
+- business_type
+- tags
+
+Languages present in the dataset:
+
+- English
+- German
+- Spanish
+- French
+- Portuguese
+
+During preprocessing I combined `subject` and `body` into one feature called `context_problem`, because this gave the model a more complete view of the issue described by the customer.
+
+---
+
+## Project Goal
+
+The goal was not to build the best possible production model yet.
+The goal was to build a solid classical NLP baseline that can later be compared against PyTorch and transformer-based approaches.
+
+Main learning objectives:
+
+- basic data cleaning for multilingual text
+- feature preparation for text classification
+- train/test split and baseline evaluation
+- comparison of a few TF-IDF based experiments
+- model serialization with `joblib`
+- simple offline inference
+
+---
+
+## What I Built
+
+This project includes:
+
+- raw and processed data folders
+- EDA and preprocessing notebooks
+- modular Python files in `src/`
+- preprocessing utilities and tests
+- training and evaluation scripts
+- saved baseline model
+- evaluation report and confusion matrix
+- simple inference module
+
+At this stage I consider the baseline project complete as a first portfolio milestone.
+
+---
+
+## Workflow
+
+### 1. Data understanding
+
+I first explored the dataset structure, label distribution, language distribution and text lengths.
+This helped confirm that the dataset is imbalanced and that some classes are naturally harder to separate.
+
+### 2. Data cleaning and feature preparation
+
+I cleaned noisy records, merged selected business type variants, consolidated tags and created `context_problem` from `subject + body`.
+
+Then I prepared additional text versions:
+
+- `cleaned_context`
+- `stemmed_context`
+
+This allowed me to test whether a lighter or stronger normalization step improves baseline performance.
+
+### 3. Train / test split
+
+I created processed training and test datasets and kept the project reproducible through a fixed random state.
+
+### 4. Baseline experiments
+
+I compared several classical NLP setups based on:
+
+- TF-IDF vectorization
+- different n-gram ranges
+- stopword removal
+- Logistic Regression
+- LinearSVC
+
+#### Experimental Comparison Summary
 
 | ID | TF-IDF Vectorization | Classifier | Accuracy | Macro F1 | Weighted F1 | Key Findings |
 |---|---|---|---|---|---|---|
@@ -61,11 +133,10 @@ Service Outages and Maintenance       0.33      0.71      0.45        28
 | 8 | Uni+Bi+Tri (1,3), stop_words removal, `max_features=30000` | LinearSVC | **0.5737** | 0.5222 | **0.5651** | Best in terms of accuracy for 10 classess |
 | 9 | Uni+Bi+Tri (1,3), stop_words removal, `max_feat=30000` | LinearSVC | **0.6138** | **0.5844** | **0.6071** | 9 classess (IT Support + Product Supprot merged), Highest global metrics. Removing class conflicts unlocked the potential of trigrams for the rest of the dataset. |
 
----
 
-### Strategic Project Decision & Data Architecture Analysis
+#### Strategic Project Decision & Data Architecture Analysis
 
-During Day 5, an additional experiment (ID 9) was conducted, involving the merging of the `Product Support` and `IT Support` classes into a single shared category (reducing the number of classes from 10 to 9). The model performance immediately increased to **61.38% Accuracy** and **58.44% Macro F1-Score**.
+During experimental stage, an additional experiment (ID 9) was conducted, involving the merging of the `Product Support` and `IT Support` classes into a single shared category (reducing the number of classes from 10 to 9). The model performance immediately increased to **61.38% Accuracy** and **58.44% Macro F1-Score**.
 
 Removing this internal label unlocked the potential of trigrams for the remaining classes (for example, the *Sales* department achieved an F1-score increase of 16 percentage points).
 
@@ -82,18 +153,91 @@ Despite the higher performance of the 9-class variant, **the official production
 3. **9-Class Variant as a Data Insight:**  
    The 9-class result is documented as a valuable business feedback insight (*Data-Driven Business Insight*), demonstrating how an internal process change within a company can dramatically improve AI automation effectiveness.
 
+
+### 5. Final baseline selection
+
+For the official baseline, I kept the harder 10-class version instead of simplifying the label space.
+I wanted the project to remain a stronger reference point for future improvements.
+
 ---
 
+## Final Baseline Result
 
+Selected baseline metrics:
 
-# Context (TBD)
-Project overview
-Problem statement
-Dataset
-Approach
-Models tested
-Metrics
-Results
-Error analysis
-How to run
-Next steps
+- Accuracy: `0.5737`
+- Macro F1: `0.5222`
+- Weighted F1: `0.5651`
+
+This result is not meant to be impressive in isolation.
+It is meant to be a realistic first benchmark for a multilingual and imbalanced classification problem.
+
+---
+
+## Experiment Summary
+
+The best results came from a `TF-IDF + LinearSVC` pipeline.
+Compared with Logistic Regression, LinearSVC handled the sparse text representation more effectively on this dataset.
+
+One additional experiment reduced the problem from 10 classes to 9 by merging `IT Support` and `Product Support`.
+That variant achieved stronger metrics, but I kept the original 10-class setup as the official baseline because it is more challenging and more useful for future comparison.
+
+---
+
+## Main Observations
+
+- The dataset is imbalanced, so macro F1 is more informative than accuracy alone.
+- `Technical Support` is the largest class and strongly affects the weighted metrics.
+- Smaller classes such as `General Inquiry` and `Human Resources` are harder to classify reliably.
+- Label overlap between `IT Support` and `Product Support` creates a real ambiguity in the task.
+- Classical NLP methods provide a useful benchmark before moving to neural models.
+
+---
+
+## Project Structure
+
+```text
+01-nlp-baseline-ticket-classifier/
+├── data/
+├── models/
+├── notebooks/
+├── reports/
+├── src/
+└── tests/
+```
+
+### How To Run
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run training and evaluation from Python or notebook workflow.
+
+Example inference usage:
+
+```python
+from src.inference import predict_ticket
+
+prediction = predict_ticket("My laptop cannot connect to the VPN", "en")
+print(prediction)
+```
+
+The saved baseline model was trained on the `stemmed_context` representation.
+The inference module now applies the same basic preprocessing flow used during training: text cleaning followed by language-based stemming when the language is available.
+
+I intentionally kept the inference module simple.
+If the language mapping file is unavailable, the code falls back to an empty language dictionary and still allows prediction, which I document as a known baseline limitation rather than overengineering the first version.
+
+---
+
+## Limitations & potential next steps
+
+- the project is a baseline, not a production service
+- inference is simple and ready to cover also edge cases
+- no FastAPI layer
+- no Docker setup
+- no experiment tracking 
+- add a cleaner CLI or API entry point
