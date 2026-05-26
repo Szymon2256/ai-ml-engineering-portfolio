@@ -68,8 +68,8 @@ This repository contains projects and experiments related to:
 ```bash
 ai-ml-engineering-portfolio/
 │
-├── 01-nlp-baseline-ticket-classifier/ # Work in progress...
-├── 02-pytorch-nlp-from-scratch/ # Planned, not started
+├── 01-nlp-baseline-ticket-classifier/ # Done, ready to check out
+├── 02-pytorch-nlp-from-scratch/ # Work in progress...
 ├── 03-transformer-finetuning-platform/ # Planned, not started
 ├── 04-ner-pii-extraction-engine/ # Planned, not started
 ├── 05-production-rag-assistant/ # Planned, not started
