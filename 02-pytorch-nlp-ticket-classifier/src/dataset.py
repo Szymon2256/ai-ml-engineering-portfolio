@@ -1,6 +1,5 @@
 import sys
 import os
-from matplotlib import text
 sys.path.append(os.path.abspath('../'))
 from collections import Counter
 from pathlib import Path
@@ -92,7 +91,18 @@ def save_label_map(label_to_idx: dict, path: Path = config.LABEL_MAP_PATH) -> No
     with open(path, "w", encoding="utf-8") as f:
         json.dump(label_to_idx, f, ensure_ascii=False, indent=2)
 
+def save_reverse_label_map(idx_to_label: dict, path: Path = config.REVERSE_LABEL_MAP_PATH) -> None:
+    """Save the reverse label mapping to a file."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(idx_to_label, f, ensure_ascii=False, indent=2)
+
 def load_label_map(path: Path = config.LABEL_MAP_PATH) -> dict:
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+def load_reverse_label_map(path: Path = config.REVERSE_LABEL_MAP_PATH) -> dict:
     with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 #---------------------------------------------------------
@@ -101,7 +111,7 @@ def build_data_loader(full_train_df: pd.DataFrame, test_df: pd.DataFrame) -> tup
     """
     Build DataLoader objects for training, validation, and testing datasets.
     """
-    train_df, val_df = split_data(full_train_df, target_column=config.TARGET_COL, test_size=0.15, random_state=42)
+    train_df, val_df = split_data(full_train_df, target_column=config.TARGET_COL, test_size=config.VALIDATION_SIZE, random_state=config.RANDOM_STATE)
 
     logger.info(f"Train:      {len(train_df):,}")
     logger.info(f"Validation: {len(val_df):,}")
@@ -115,7 +125,7 @@ def build_data_loader(full_train_df: pd.DataFrame, test_df: pd.DataFrame) -> tup
 
     save_vocab(vocab)
     save_label_map(label_to_idx)
-
+    save_reverse_label_map(idx_to_label)
     train_dataset = TicketDataset(train_df, vocab, label_to_idx)
     val_dataset   = TicketDataset(val_df, vocab, label_to_idx)
     test_dataset  = TicketDataset(test_df, vocab, label_to_idx)

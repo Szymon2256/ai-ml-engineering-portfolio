@@ -5,7 +5,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-class DataLoader:
+class RawDataLoader:
     def __init__(self, file_path: str):
         self.file_path = file_path
 
