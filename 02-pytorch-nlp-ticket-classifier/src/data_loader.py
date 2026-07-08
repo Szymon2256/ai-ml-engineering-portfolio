@@ -1,5 +1,4 @@
 import pandas as pd
-import json
 import logging
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -11,7 +10,7 @@ class RawDataLoader:
 
     def load_data(self) -> pd.DataFrame:
         """
-        Load data from a JSON file and return it as a pandas DataFrame.
+        Load data from a CSV file and return it as a pandas DataFrame.
         """
         try:
             df = pd.read_csv(self.file_path)
