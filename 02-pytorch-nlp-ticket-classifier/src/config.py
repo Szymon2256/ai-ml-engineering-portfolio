@@ -16,6 +16,7 @@ REVERSE_LABEL_MAP_PATH = os.path.join(PROCESSED_DATA_DIR, 'reverse_label_map.jso
 
 # Prepare paths to save models and results
 MODEL_DIR = os.path.join(BASE_DIR, "models")
+EMBEDDING_MODEL_PATH = os.path.join(MODEL_DIR, "embedding_average_classifier.pt")
 
 # Reports and artifacts
 REPORT_DIR = os.path.join(BASE_DIR, "reports")
@@ -26,7 +27,7 @@ CM_PLOT_PATH = os.path.join(FIGURES_DIR, "confusion_matrix_embeddings.png")
 # Make sure directories exist
 os.makedirs(MODEL_DIR, exist_ok=True)
 os.makedirs(REPORT_DIR, exist_ok=True)
-
+os.makedirs(FIGURES_DIR, exist_ok=True)
 #---------------------------------------------------------
 # Hyperparameters and settings
 #---------------------------------------------------------
@@ -46,3 +47,12 @@ PAD_TOKEN = "<PAD>"
 UNK_TOKEN = "<UNK>"
 PAD_IDX = 0
 UNK_IDX = 1
+
+# --- Model ---
+EMBEDDING_DIM = 128
+NUM_CLASSES = 10  # Adjust based on the number of unique labels in dataset
+
+# --- Model Training ---
+LEARNING_RATE = 1e-3
+NUM_EPOCHS = 10
+WEIGHT_DECAY = 0.0
