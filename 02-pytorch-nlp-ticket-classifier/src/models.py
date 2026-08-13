@@ -17,8 +17,10 @@ class EmbeddingAverageClassifier(nn.Module):
     def __init__(self, vocab_size: int = VOCAB_SIZE, embedding_dim: int = EMBEDDING_DIM, 
                  num_classes: int = NUM_CLASSES, pad_idx: int = PAD_IDX):
         # Gradient for PAD is not updated
-
         super().__init__()
+        # Embedding layer: each ID token → vector of 128 numbers
+        # padding_idx=PAD_IDX means: the vector for the PAD token is always zero
+        # and is not updated during training
         self.embedding = nn.Embedding(num_embeddings=vocab_size, embedding_dim=embedding_dim, padding_idx=pad_idx)
         self.classifier = nn.Linear(embedding_dim, num_classes)
 
