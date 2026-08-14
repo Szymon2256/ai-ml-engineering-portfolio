@@ -54,5 +54,5 @@ NUM_CLASSES = 10  # Adjust based on the number of unique labels in dataset
 
 # --- Model Training ---
 LEARNING_RATE = 1e-3
-NUM_EPOCHS = 10
+NUM_EPOCHS = 30
 WEIGHT_DECAY = 0.0
